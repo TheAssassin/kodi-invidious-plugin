@@ -1,5 +1,7 @@
 import requests
+import sys
 from urllib import urlencode
+from urlparse import parse_qs
 
 import xbmcgui
 import xbmcplugin
@@ -137,3 +139,11 @@ class InvidiousPlugin:
                 "Request to Invidious API exceeded timeout",
                 "error"
             )
+
+    @classmethod
+    def from_argv(cls):
+        base_url = sys.argv[0]
+        addon_handle = int(sys.argv[1])
+        args = parse_qs(sys.argv[2][1:])
+
+        return cls(base_url, addon_handle, args)

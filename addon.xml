@@ -5,9 +5,11 @@
         <import addon="script.module.requests" version="2.12.4"/>
         <import addon="script.module.inputstreamhelper" version="0.4.5"/>
     </requires>
-    <extension point="xbmc.python.pluginsource" library="resources/lib/addon.py">
+
+    <extension point="xbmc.python.pluginsource" library="resources/lib/invidious_addon.py">
         <provides>video</provides>
     </extension>
+
     <extension point="xbmc.python.module" library="resources/lib/"/>
     <extension point="xbmc.addon.metadata">
         <summary lang="en">Invidious client</summary>
