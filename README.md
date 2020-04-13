@@ -25,6 +25,8 @@ mkdir plugin.video.invidious
 wget https://github.com/TheAssassin/kodi-invidious-plugin/archive/master.tar.gz -O - | tar xz --strip-components=1 -C plugin.video.invidious
 ```
 
+It is strongly recommended to use git instead of an archive, as it makes updating the plugin a lot easier.
+
 You may have to restart Kodi before you can enable the plugin. To enable the plugin, please go to the addons settings, switch to *user plugins* and enable the plugin there.
 
 
