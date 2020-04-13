@@ -42,12 +42,23 @@ class InvidiousAPIClient:
         data = response.json()
 
         for video in data:
+            for thumb in video["videoThumbnails"]:
+                # high appears to be ~480x360, which is a reasonable trade-off
+                # works well on 1080p
+                if thumb["quality"] == "high":
+                    thumbnail_url = thumb["url"]
+                    break
+
+            # as a fallback, we just use the last one in the list (which is usually the lowest quality)
+            else:
+                thumbnail_url = video["videoThumbnails"][-1]["url"]
+
             yield SearchResult(
                 video["videoId"],
                 video["title"],
                 video["author"],
                 video["description"],
-                video["videoThumbnails"][0]["url"]
+                thumbnail_url
             )
 
 
