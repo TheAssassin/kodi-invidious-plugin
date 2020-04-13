@@ -1,8 +1,30 @@
+import time
 from collections import namedtuple
 
 import requests
 
 SearchResult = namedtuple("SearchResult", ["video_id", "title", "author", "description", "thumbnail_url"])
+
+
+def make_get_request(*path, **params):
+    base_url = "https://invidio.us/api/v1/"
+
+    url_path = "/".join(path)
+
+    while "//" in url_path:
+        url_path = url_path.replace("//", "/")
+
+    assembled_url = base_url + url_path
+
+    print("========== request started ==========")
+    start = time.time()
+    response = requests.get(assembled_url, params=params)
+    end = time.time()
+    print("========== request finished in", end - start, "s ==========")
+
+    response.raise_for_status()
+
+    return response
 
 
 def search(*terms):
@@ -11,8 +33,7 @@ def search(*terms):
         "sort_by": "upload_date",
     }
 
-    response = requests.get("https://invidio.us/api/v1/search", params=params)
-    response.raise_for_status()
+    response = make_get_request("search", **params)
 
     data = response.json()
 
@@ -27,8 +48,7 @@ def search(*terms):
 
 
 def get_stream_url_for_id(video_id):
-    response = requests.get("https://invidio.us/api/v1/videos/" + video_id)
-    response.raise_for_status()
+    response = make_get_request("videos/", video_id)
 
     data = response.json()
 
