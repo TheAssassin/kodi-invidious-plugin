@@ -2,6 +2,8 @@
 
 This plugin provides an [Invidious](https://invidio.us) client for [Kodi](https://kodi.tv). Invidious is a privacy-friendly web frontend to YouTube.
 
+**Note:** At the moment, this plugin only works with Kodi 18 and newer.
+
 
 ## Installation
 
@@ -37,3 +39,4 @@ You may have to restart Kodi before you can enable the plugin. To enable the plu
 - be able to open YouTube videos from [NewPipe](https://newpipe.net)
 - add support for settings, e.g., to configure Invidious instance
 - ~~support for adaptive streaming~~
+- consider supporting versions < Kodi 18 (e.g., by making the dependency on inputstream-helper optional)
