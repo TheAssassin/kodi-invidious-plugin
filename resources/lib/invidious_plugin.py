@@ -1,3 +1,4 @@
+import requests
 from urllib import urlencode
 
 import xbmcgui
@@ -73,7 +74,8 @@ class InvidiousPlugin:
 
     def run(self):
         """
-        Web application style router. Uses querystring for everything, which is pretty oldschool CGI-like stuff.
+        Web application style method dispatching.
+        Uses querystring only, which is pretty oldschool CGI-like stuff.
         """
 
         action = self.args.get("action", [None])[0]
@@ -86,14 +88,24 @@ class InvidiousPlugin:
         print("action:", action)
         print("--------------------------------------------")
 
-        if not action:
-            self.display_main_menu()
+        # for the sake of simplicity, we just handle HTTP request errors here centrally
+        try:
+            if not action:
+                self.display_main_menu()
 
-        elif action == "search":
-            self.display_search()
+            elif action == "search":
+                self.display_search()
 
-        elif action == "video":
-            self.play_video(self.args["id"][0])
+            elif action == "video":
+                self.play_video(self.args["id"][0])
 
-        else:
-            raise RuntimeError("unknown action " + action)
+            else:
+                raise RuntimeError("unknown action " + action)
+
+        except requests.HTTPError as e:
+            dialog = xbmcgui.Dialog()
+            dialog.notification(
+                "HTTP error",
+                "Request to Invidious API failed: HTTP status " + e.response.status,
+                "error"
+            )
