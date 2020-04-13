@@ -15,6 +15,9 @@ class InvidiousPlugin:
         self.addon_handle = addon_handle
         self.args = args
 
+        instance_url = xbmcplugin.getSetting(self.addon_handle, "instance_url")
+        self.api_client = invidious_api.InvidiousAPIClient(instance_url)
+
     def build_url(self, action, **kwargs):
         if not action:
             raise ValueError("you need to specify an action")
@@ -35,7 +38,7 @@ class InvidiousPlugin:
         search_input = dialog.input("Search", type=xbmcgui.INPUT_ALPHANUM)
 
         # search for the terms on Invidious
-        results = invidious_api.search(search_input)
+        results = self.api_client.search(search_input)
 
         # assemble menu with the results
         for video in results:
@@ -61,7 +64,7 @@ class InvidiousPlugin:
 
     def play_video(self, id):
         # TODO: add support for adaptive streaming
-        video_info = invidious_api.fetch_video_information(id)
+        video_info = self.api_client.fetch_video_information(id)
 
         listitem = None
 

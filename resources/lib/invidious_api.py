@@ -6,50 +6,54 @@ import requests
 SearchResult = namedtuple("SearchResult", ["video_id", "title", "author", "description", "thumbnail_url"])
 
 
-def make_get_request(*path, **params):
-    base_url = "https://invidio.us/api/v1/"
+class InvidiousAPIClient:
+    def __init__(self, instance_url):
+        self.instance_url = instance_url.rstrip("/")
 
-    url_path = "/".join(path)
+    def make_get_request(self, *path, **params):
+        base_url = self.instance_url + "/api/v1/"
 
-    while "//" in url_path:
-        url_path = url_path.replace("//", "/")
+        url_path = "/".join(path)
 
-    assembled_url = base_url + url_path
+        while "//" in url_path:
+            url_path = url_path.replace("//", "/")
 
-    print("========== request started ==========")
-    start = time.time()
-    response = requests.get(assembled_url, params=params, timeout=5)
-    end = time.time()
-    print("========== request finished in", end - start, "s ==========")
+        assembled_url = base_url + url_path
 
-    response.raise_for_status()
+        print("========== request started ==========")
+        start = time.time()
+        response = requests.get(assembled_url, params=params, timeout=5)
+        end = time.time()
+        print("========== request finished in", end - start, "s ==========")
 
-    return response
+        response.raise_for_status()
 
-
-def search(*terms):
-    params = {
-        "q": " ".join(terms),
-        "sort_by": "upload_date",
-    }
-
-    response = make_get_request("search", **params)
-
-    data = response.json()
-
-    for video in data:
-        yield SearchResult(
-            video["videoId"],
-            video["title"],
-            video["author"],
-            video["description"],
-            video["videoThumbnails"][0]["url"]
-        )
+        return response
 
 
-def fetch_video_information(video_id):
-    response = make_get_request("videos/", video_id)
+    def search(self, *terms):
+        params = {
+            "q": " ".join(terms),
+            "sort_by": "upload_date",
+        }
 
-    data = response.json()
+        response = self.make_get_request("search", **params)
 
-    return data
+        data = response.json()
+
+        for video in data:
+            yield SearchResult(
+                video["videoId"],
+                video["title"],
+                video["author"],
+                video["description"],
+                video["videoThumbnails"][0]["url"]
+            )
+
+
+    def fetch_video_information(self, video_id):
+        response = self.make_get_request("videos/", video_id)
+
+        data = response.json()
+
+        return data
