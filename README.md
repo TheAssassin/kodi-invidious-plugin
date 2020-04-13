@@ -22,7 +22,7 @@ cd ~/.kodi/addons/
 
 # download a zip archive
 mkdir plugin.video.invidious
-wget https://github.com/TheAssassin/kodi-invidious-plugin/archive/master.zip -O - | tar xz --strip-components=1 -C plugin.video.invidious
+wget https://github.com/TheAssassin/kodi-invidious-plugin/archive/master.tar.gz -O - | tar xz --strip-components=1 -C plugin.video.invidious
 ```
 
 You may have to restart Kodi before you can enable the plugin. To enable the plugin, please go to the addons settings, switch to *user plugins* and enable the plugin there.
