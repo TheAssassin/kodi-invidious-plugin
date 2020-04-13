@@ -1,0 +1,3 @@
+*.py[c|o]
+__pycache__/
+.idea/
