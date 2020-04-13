@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.invidious" name="Invidious" version="0.0.1-alpha-1" provider-name="TheAssassin">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
@@ -10,8 +10,8 @@
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en_GB">Invidious client</summary>
-        <description lang="en_GB">A privacy-friendly way of watching YouTube content. Uses the great Invidious web
+        <summary lang="en">Invidious client</summary>
+        <description lang="en">A privacy-friendly way of watching YouTube content. Uses the great Invidious web
             service's API to do the heavy lifting.
         </description>
         <disclaimer lang="en_GB">This plugin is not endorsed by Google</disclaimer>
