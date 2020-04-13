@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.invidious" name="Invidious" version="0.0.1-alpha-1" provider-name="TheAssassin">
+    <requires>
+        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="script.module.requests" version="2.12.4"/>
+    </requires>
+    <extension point="xbmc.python.module" library="resources/lib/"/>
+    <extension point="xbmc.python.pluginsource" library="resources/lib/addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Invidious client</summary>
+        <description lang="en_GB">A privacy-friendly way of watching YouTube content. Uses the great Invidious web
+            service's API to do the heavy lifting.
+        </description>
+        <disclaimer lang="en_GB">This plugin is not endorsed by Google</disclaimer>
+        <language>en</language>
+        <platform>all</platform>
+        <license>MIT</license>
+        <source>https://github.com/TheAssassin/kodi-invidious-plugin</source>
+        <assets>
+            <icon>resources/icon.png</icon>
+        </assets>
+    </extension>
+</addon>
