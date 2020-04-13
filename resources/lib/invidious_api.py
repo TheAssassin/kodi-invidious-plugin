@@ -18,7 +18,7 @@ def make_get_request(*path, **params):
 
     print("========== request started ==========")
     start = time.time()
-    response = requests.get(assembled_url, params=params)
+    response = requests.get(assembled_url, params=params, timeout=5)
     end = time.time()
     print("========== request finished in", end - start, "s ==========")
 

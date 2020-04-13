@@ -126,3 +126,11 @@ class InvidiousPlugin:
                 "Request to Invidious API failed: HTTP status " + e.response.status,
                 "error"
             )
+
+        except requests.Timeout:
+            dialog = xbmcgui.Dialog()
+            dialog.notification(
+                "Timeout",
+                "Request to Invidious API exceeded timeout",
+                "error"
+            )
