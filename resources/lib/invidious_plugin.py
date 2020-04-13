@@ -56,7 +56,7 @@ class InvidiousPlugin:
             # https://forum.kodi.tv/showthread.php?tid=173986&pid=1519987#pid1519987
             list_item.setProperty("IsPlayable", "true")
 
-            url = self.build_url("video", id=video.video_id)
+            url = self.build_url("play_video", video_id=video.video_id)
 
             self.add_directory_item(url=url, listitem=list_item)
 
@@ -86,9 +86,9 @@ class InvidiousPlugin:
         xbmcplugin.setResolvedUrl(self.addon_handle, succeeded=True, listitem=listitem)
 
     def display_main_menu(self):
-        # search item
-        listitem = xbmcgui.ListItem("Search", path="search")
-        self.add_directory_item(url=self.build_url("search"), listitem=listitem, isFolder=True)
+        # video search item
+        listitem = xbmcgui.ListItem("Search video titles", path="search_video")
+        self.add_directory_item(url=self.build_url("search_video"), listitem=listitem, isFolder=True)
 
         self.end_of_directory()
 
@@ -113,11 +113,11 @@ class InvidiousPlugin:
             if not action:
                 self.display_main_menu()
 
-            elif action == "search":
+            elif action == "search_video":
                 self.display_search()
 
-            elif action == "video":
-                self.play_video(self.args["id"][0])
+            elif action == "play_video":
+                self.play_video(self.args["video_id"][0])
 
             else:
                 raise RuntimeError("unknown action " + action)
