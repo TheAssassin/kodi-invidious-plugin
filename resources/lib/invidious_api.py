@@ -47,9 +47,9 @@ def search(*terms):
         )
 
 
-def get_stream_url_for_id(video_id):
+def fetch_video_information(video_id):
     response = make_get_request("videos/", video_id)
 
     data = response.json()
 
-    return data["formatStreams"][0]["url"]
+    return data

@@ -36,4 +36,4 @@ You may have to restart Kodi before you can enable the plugin. To enable the plu
 - implement adaptive streaming properly
 - be able to open YouTube videos from [NewPipe](https://newpipe.net)
 - add support for settings, e.g., to configure Invidious instance
-- adaptive streaming
+- ~~support for adaptive streaming~~

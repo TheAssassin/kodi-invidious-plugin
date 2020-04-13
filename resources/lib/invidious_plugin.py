@@ -4,6 +4,8 @@ from urllib import urlencode
 import xbmcgui
 import xbmcplugin
 
+import inputstreamhelper
+
 import invidious_api
 
 
@@ -59,11 +61,26 @@ class InvidiousPlugin:
 
     def play_video(self, id):
         # TODO: add support for adaptive streaming
-        url = invidious_api.get_stream_url_for_id(id)
+        video_info = invidious_api.fetch_video_information(id)
 
-        # it's pretty complicated to play a video in Kodi
-        listitem = xbmcgui.ListItem(path=url)
-        xbmcplugin.setResolvedUrl(self.addon_handle, True, listitem=listitem)
+        listitem = None
+
+        # check if playback via MPEG-DASH is possible
+        if "dashUrl" in video_info:
+            is_helper = inputstreamhelper.Helper("mpd")
+            
+            if is_helper.check_inputstream():
+                listitem = xbmcgui.ListItem(path=video_info["dashUrl"])
+                listitem.setProperty("inputstreamaddon", is_helper.inputstream_addon)
+                listitem.setProperty("inputstream.adaptive.manifest_type", "mpd")
+
+        # as a fallback, we use the first oldschool stream
+        if listitem is None:
+            url = video_info["formatStreams"][0]["url"]
+            # it's pretty complicated to play a video by its URL in Kodi...
+            listitem = xbmcgui.ListItem(path=url)
+
+        xbmcplugin.setResolvedUrl(self.addon_handle, succeeded=True, listitem=listitem)
 
     def display_main_menu(self):
         # search item
