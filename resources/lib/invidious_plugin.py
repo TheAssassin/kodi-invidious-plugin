@@ -34,16 +34,9 @@ class InvidiousPlugin:
     def end_of_directory(self):
         xbmcplugin.endOfDirectory(self.addon_handle)
 
-    def display_search(self):
-        # query search terms with a dialog
-        dialog = xbmcgui.Dialog()
-        search_input = dialog.input("Search", type=xbmcgui.INPUT_ALPHANUM)
-
-        # search for the terms on Invidious
-        results = self.api_client.search(search_input)
-
-        # assemble menu with the results
-        for video in results:
+    def display_list_of_videos(self, videos):
+        # extracted from display_search
+        for video in videos:
             list_item = xbmcgui.ListItem(video.title)
             list_item.setArt({
                 "thumb": video.thumbnail_url,
@@ -63,6 +56,17 @@ class InvidiousPlugin:
             self.add_directory_item(url=url, listitem=list_item)
 
         self.end_of_directory()
+
+    def display_search(self):
+        # query search terms with a dialog
+        dialog = xbmcgui.Dialog()
+        search_input = dialog.input("Search", type=xbmcgui.INPUT_ALPHANUM)
+
+        # search for the terms on Invidious
+        results = self.api_client.search(search_input)
+
+        # assemble menu with the results
+        self.display_list_of_videos(results)
 
     def play_video(self, id):
         # TODO: add support for adaptive streaming
