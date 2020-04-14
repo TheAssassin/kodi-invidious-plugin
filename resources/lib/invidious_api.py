@@ -50,7 +50,7 @@ class InvidiousAPIClient:
                 video["videoId"],
                 video["title"],
                 video["author"],
-                video["description"],
+                video.get("description", "No description available"),
                 thumbnail_url
             )
 
