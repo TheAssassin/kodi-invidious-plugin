@@ -128,7 +128,7 @@ class InvidiousPlugin:
             dialog = xbmcgui.Dialog()
             dialog.notification(
                 "HTTP error",
-                "Request to Invidious API failed: HTTP status " + e.response.status_code,
+                "Request to Invidious API failed: HTTP status " + str(e.response.status_code),
                 "error"
             )
 
