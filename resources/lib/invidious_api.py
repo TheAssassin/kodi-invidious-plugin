@@ -30,7 +30,6 @@ class InvidiousAPIClient:
 
         return response
 
-
     def search(self, *terms):
         params = {
             "q": " ".join(terms),
@@ -60,7 +59,6 @@ class InvidiousAPIClient:
                 video["description"],
                 thumbnail_url
             )
-
 
     def fetch_video_information(self, video_id):
         response = self.make_get_request("videos/", video_id)
