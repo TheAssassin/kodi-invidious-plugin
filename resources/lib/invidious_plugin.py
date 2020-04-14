@@ -12,6 +12,9 @@ import invidious_api
 
 
 class InvidiousPlugin:
+    # special lists provided by the Invidious API
+    SPECIAL_LISTS = ("trending", "top", "popular")
+
     def __init__(self, base_url, addon_handle, args):
         self.base_url = base_url
         self.addon_handle = addon_handle
@@ -68,6 +71,14 @@ class InvidiousPlugin:
         # assemble menu with the results
         self.display_list_of_videos(results)
 
+    def display_special_list(self, special_list_name):
+        if special_list_name not in self.__class__.SPECIAL_LISTS:
+            raise ValueError(str(special_list_name) + " is not a valid special list")
+
+        videos = self.api_client.fetch_special_list(special_list_name)
+
+        self.display_list_of_videos(videos)
+
     def play_video(self, id):
         # TODO: add support for adaptive streaming
         video_info = self.api_client.fetch_video_information(id)
@@ -92,9 +103,16 @@ class InvidiousPlugin:
         xbmcplugin.setResolvedUrl(self.addon_handle, succeeded=True, listitem=listitem)
 
     def display_main_menu(self):
+        def add_list_item(label, path):
+            listitem = xbmcgui.ListItem(label, path=path)
+            self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
+
         # video search item
-        listitem = xbmcgui.ListItem("Search video titles", path="search_video")
-        self.add_directory_item(url=self.build_url("search_video"), listitem=listitem, isFolder=True)
+        add_list_item("Search video titles", "search_video")
+
+        for special_list_name in self.__class__.SPECIAL_LISTS:
+            label = special_list_name[0].upper() + special_list_name[1:]
+            add_list_item(label, special_list_name)
 
         self.end_of_directory()
 
@@ -124,6 +142,10 @@ class InvidiousPlugin:
 
             elif action == "play_video":
                 self.play_video(self.args["video_id"][0])
+
+            elif action in self.__class__.SPECIAL_LISTS:
+                special_list_name = action
+                self.display_special_list(special_list_name)
 
             else:
                 raise RuntimeError("unknown action " + action)

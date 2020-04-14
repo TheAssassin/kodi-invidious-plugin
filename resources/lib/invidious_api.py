@@ -70,3 +70,8 @@ class InvidiousAPIClient:
         data = response.json()
 
         return data
+
+    def fetch_special_list(self, special_list_name):
+        response = self.make_get_request(special_list_name)
+
+        return self.parse_video_list_response(response)

@@ -40,6 +40,6 @@ You may have to restart Kodi before you can enable the plugin. To enable the plu
 - ~~add support for settings, e.g., to configure Invidious instance~~
 - ~~support for adaptive streaming~~
 - consider supporting versions < Kodi 18 (e.g., by making the dependency on inputstream-helper optional)
-- *trending*, *top*, *popular* etc. video lists (not too important to most people, but Invidious offers endpoints, so why not?)
+- ~~*trending*, *top*, *popular* etc. video lists (not too important to most people, but Invidious offers endpoints, so why not?)~~
 - visit channel of list items (e.g., via the context menu of a video search result)
 - save channels in favorite list (for quick access from the main menu)
