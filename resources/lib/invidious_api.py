@@ -3,7 +3,7 @@ from collections import namedtuple
 
 import requests
 
-SearchResult = namedtuple("SearchResult", ["video_id", "title", "author", "description", "thumbnail_url"])
+VideoListItem = namedtuple("SearchResult", ["video_id", "title", "author", "description", "thumbnail_url"])
 
 
 class InvidiousAPIClient:
@@ -30,14 +30,8 @@ class InvidiousAPIClient:
 
         return response
 
-    def search(self, *terms):
-        params = {
-            "q": " ".join(terms),
-            "sort_by": "upload_date",
-        }
-
-        response = self.make_get_request("search", **params)
-
+    @staticmethod
+    def parse_video_list_response(response):
         data = response.json()
 
         for video in data:
@@ -52,13 +46,23 @@ class InvidiousAPIClient:
             else:
                 thumbnail_url = video["videoThumbnails"][-1]["url"]
 
-            yield SearchResult(
+            yield VideoListItem(
                 video["videoId"],
                 video["title"],
                 video["author"],
                 video["description"],
                 thumbnail_url
             )
+
+    def search(self, *terms):
+        params = {
+            "q": " ".join(terms),
+            "sort_by": "upload_date",
+        }
+
+        response = self.make_get_request("search", **params)
+
+        return self.parse_video_list_response(response)
 
     def fetch_video_information(self, video_id):
         response = self.make_get_request("videos/", video_id)
