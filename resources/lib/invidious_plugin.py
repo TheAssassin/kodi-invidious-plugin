@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 import sys
 from urllib import urlencode
@@ -41,14 +43,22 @@ class InvidiousPlugin:
         # extracted from display_search
         for video in videos:
             list_item = xbmcgui.ListItem(video.title)
+
             list_item.setArt({
                 "thumb": video.thumbnail_url,
             })
+
+            datestr = datetime.utcfromtimestamp(video.published).date().isoformat()
+
             list_item.setInfo("video", {
                 "title": video.title,
                 "mediatype": "video",
                 "plot": video.description,
+                "credits": video.author,
+                "date": datestr,
+                "dateadded": datestr,
             })
+
             # if this is NOT set, the plugin is called with an invalid handle when trying to play this item
             # seriously, Kodi? come on...
             # https://forum.kodi.tv/showthread.php?tid=173986&pid=1519987#pid1519987
@@ -104,7 +114,7 @@ class InvidiousPlugin:
 
     def display_main_menu(self):
         def add_list_item(label, path):
-            listitem = xbmcgui.ListItem(label, path=path)
+            listitem = xbmcgui.ListItem(label, path=path, )
             self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
 
         # video search item
