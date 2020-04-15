@@ -3,7 +3,17 @@ from collections import namedtuple
 
 import requests
 
-VideoListItem = namedtuple("SearchResult", ["video_id", "title", "author", "description", "thumbnail_url"])
+VideoListItem = namedtuple("SearchResult",
+    [
+        "video_id",
+        "title",
+        "author",
+        "description",
+        "thumbnail_url",
+        "view_count",
+        "published",
+    ]
+)
 
 
 class InvidiousAPIClient:
@@ -51,7 +61,9 @@ class InvidiousAPIClient:
                 video["title"],
                 video["author"],
                 video.get("description", "No description available"),
-                thumbnail_url
+                thumbnail_url,
+                video["viewCount"],
+                video["published"],
             )
 
     def search(self, *terms):
