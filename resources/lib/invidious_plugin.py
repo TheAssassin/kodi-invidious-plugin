@@ -89,6 +89,12 @@ class InvidiousPlugin:
 
         self.display_list_of_videos(videos)
 
+    def display_channel_list(self, channel_id):
+        # TODO: pagination
+        videos = self.api_client.fetch_channel_list(channel_id)
+
+        self.display_list_of_videos(videos)
+
     def play_video(self, id):
         # TODO: add support for adaptive streaming
         video_info = self.api_client.fetch_video_information(id)
@@ -152,6 +158,9 @@ class InvidiousPlugin:
 
             elif action == "play_video":
                 self.play_video(self.args["video_id"][0])
+
+            elif action == "view_channel":
+                self.display_channel_list(self.args["channel_id"][0])
 
             elif action in self.__class__.SPECIAL_LISTS:
                 special_list_name = action
