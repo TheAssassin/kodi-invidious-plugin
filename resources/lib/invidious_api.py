@@ -83,6 +83,11 @@ class InvidiousAPIClient:
 
         return data
 
+    def fetch_channel_list(self, channel_id):
+        response = self.make_get_request("channels/videos/", channel_id)
+
+        return self.parse_video_list_response(response)
+
     def fetch_special_list(self, special_list_name):
         response = self.make_get_request(special_list_name)
 
