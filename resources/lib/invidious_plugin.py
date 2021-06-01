@@ -2,8 +2,8 @@ from datetime import datetime
 
 import requests
 import sys
-from urllib import urlencode
-from urlparse import parse_qs
+from urllib.parse import urlencode
+from urllib.parse import parse_qs
 
 import xbmcgui
 import xbmcplugin
@@ -15,7 +15,7 @@ import invidious_api
 
 class InvidiousPlugin:
     # special lists provided by the Invidious API
-    SPECIAL_LISTS = ("trending", "top", "popular")
+    SPECIAL_LISTS = ("trending", "popular")
 
     def __init__(self, base_url, addon_handle, args):
         self.base_url = base_url
@@ -107,7 +107,7 @@ class InvidiousPlugin:
             
             if is_helper.check_inputstream():
                 listitem = xbmcgui.ListItem(path=video_info["dashUrl"])
-                listitem.setProperty("inputstreamaddon", is_helper.inputstream_addon)
+                listitem.setProperty("inputstream", is_helper.inputstream_addon)
                 listitem.setProperty("inputstream.adaptive.manifest_type", "mpd")
 
         # as a fallback, we use the first oldschool stream

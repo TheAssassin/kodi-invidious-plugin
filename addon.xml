@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.invidious" name="Invidious" version="0.0.1~alpha1" provider-name="TheAssassin">
     <requires>
-        <import addon="xbmc.python" version="2.25.0"/>
-        <import addon="script.module.requests" version="2.12.4"/>
-        <import addon="script.module.inputstreamhelper" version="0.4.5"/>
+        <import addon="xbmc.python" version="3.0.0"/>
+        <import addon="script.module.requests" version="2.22.0"/>
+        <import addon="script.module.inputstreamhelper" version="0.5.2"/>
     </requires>
 
     <extension point="xbmc.python.pluginsource" library="resources/lib/invidious_addon.py">
