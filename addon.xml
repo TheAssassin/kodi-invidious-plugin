@@ -17,7 +17,7 @@
             service's API to do the heavy lifting.
         </description>
         <disclaimer lang="en_GB">This plugin is not endorsed by Google</disclaimer>
-        <language>en</language>
+        <language></language>
         <platform>all</platform>
         <license>MIT</license>
         <source>https://github.com/TheAssassin/kodi-invidious-plugin</source>
