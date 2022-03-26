@@ -141,12 +141,12 @@ class InvidiousPlugin:
         action = self.args.get("action", [None])[0]
 
         # debugging
-        print("--------------------------------------------")
-        print("base url:", self.base_url)
-        print("handle:", self.addon_handle)
-        print("args:", self.args)
-        print("action:", action)
-        print("--------------------------------------------")
+        xbmc.log("--------------------------------------------", xbmc.LOGDEBUG)
+        xbmc.log("base url:", self.base_url, xbmc.LOGDEBUG)
+        xbmc.log("handle:", self.addon_handle, xbmc.LOGDEBUG)
+        xbmc.log("args:", self.args, xbmc.LOGDEBUG)
+        xbmc.log("action:", action, xbmc.LOGDEBUG)
+        xbmc.log("--------------------------------------------", xbmc.LOGDEBUG)
 
         # for the sake of simplicity, we just handle HTTP request errors here centrally
         try:

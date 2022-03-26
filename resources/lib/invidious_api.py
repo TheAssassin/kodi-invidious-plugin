@@ -30,11 +30,11 @@ class InvidiousAPIClient:
 
         assembled_url = base_url + url_path
 
-        print("========== request started ==========")
+        xbmc.log("========== request started ==========", xbmc.LOGDEBUG)
         start = time.time()
         response = requests.get(assembled_url, params=params, timeout=5)
         end = time.time()
-        print("========== request finished in", end - start, "s ==========")
+        xbmc.log("========== request finished in", end - start, "s ==========", xbmc.LOGDEBUG)
 
         response.raise_for_status()
 
