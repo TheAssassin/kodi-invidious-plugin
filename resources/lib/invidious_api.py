@@ -2,6 +2,8 @@ import time
 from collections import namedtuple
 
 import requests
+import xbmc
+import xbmcaddon
 
 VideoListItem = namedtuple("SearchResult",
     [
@@ -17,9 +19,9 @@ VideoListItem = namedtuple("SearchResult",
 
 
 class InvidiousAPIClient:
-    def __init__(self, instance_url, addon_handle):
+    def __init__(self, instance_url):
         self.instance_url = instance_url.rstrip("/")
-        self.addon_handle = addon_handle
+        self.addon = xbmcaddon.Addon()
 
     def make_get_request(self, *path, **params):
         base_url = self.instance_url + "/api/v1/"
@@ -35,7 +37,7 @@ class InvidiousAPIClient:
         start = time.time()
         response = requests.get(assembled_url, params=params, timeout=5)
         end = time.time()
-        xbmc.log("========== request finished in", end - start, "s ==========", xbmc.LOGDEBUG)
+        xbmc.log("========== request finished in" + str(end - start) + "s ==========", xbmc.LOGDEBUG)
 
         response.raise_for_status()
 
@@ -60,7 +62,7 @@ class InvidiousAPIClient:
                 video["videoId"],
                 video["title"],
                 video["author"],
-                video.get("description", self.addon_handle.getLocalizedString(30000)),
+                video.get("description", self.addon.getLocalizedString(30000)),
                 thumbnail_url,
                 video["viewCount"],
                 video["published"],

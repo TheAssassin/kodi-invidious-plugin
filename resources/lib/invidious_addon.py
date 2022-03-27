@@ -2,6 +2,7 @@ import sys
 
 import invidious_plugin
 
+import xbmc
 import xbmcplugin
 
 
