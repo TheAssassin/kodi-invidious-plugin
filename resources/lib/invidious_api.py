@@ -43,7 +43,7 @@ class InvidiousAPIClient:
 
         return response
 
-    def parse_video_list_response(response):
+    def parse_video_list_response(self, response):
         data = response.json()
 
         for video in data:
