@@ -17,8 +17,9 @@ VideoListItem = namedtuple("SearchResult",
 
 
 class InvidiousAPIClient:
-    def __init__(self, instance_url):
+    def __init__(self, instance_url, addon_handle):
         self.instance_url = instance_url.rstrip("/")
+        self.addon_handle = addon_handle
 
     def make_get_request(self, *path, **params):
         base_url = self.instance_url + "/api/v1/"
@@ -40,7 +41,6 @@ class InvidiousAPIClient:
 
         return response
 
-    @staticmethod
     def parse_video_list_response(response):
         data = response.json()
 
@@ -55,12 +55,12 @@ class InvidiousAPIClient:
             # as a fallback, we just use the last one in the list (which is usually the lowest quality)
             else:
                 thumbnail_url = video["videoThumbnails"][-1]["url"]
-
+        
             yield VideoListItem(
                 video["videoId"],
                 video["title"],
                 video["author"],
-                video.get("description", "No description available"),
+                video.get("description", self.addon_handle.getLocalizedString(30000)),
                 thumbnail_url,
                 video["viewCount"],
                 video["published"],

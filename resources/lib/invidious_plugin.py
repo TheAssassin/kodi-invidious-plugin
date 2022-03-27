@@ -23,7 +23,7 @@ class InvidiousPlugin:
         self.args = args
 
         instance_url = xbmcplugin.getSetting(self.addon_handle, "instance_url")
-        self.api_client = invidious_api.InvidiousAPIClient(instance_url)
+        self.api_client = invidious_api.InvidiousAPIClient(instance_url, seld.addon_handle)
 
     def build_url(self, action, **kwargs):
         if not action:
@@ -73,7 +73,7 @@ class InvidiousPlugin:
     def display_search(self):
         # query search terms with a dialog
         dialog = xbmcgui.Dialog()
-        search_input = dialog.input("Search", type=xbmcgui.INPUT_ALPHANUM)
+        search_input = dialog.input(self.addon_handle.getLocalizedString(30001), type=xbmcgui.INPUT_ALPHANUM)
 
         # search for the terms on Invidious
         results = self.api_client.search(search_input)
@@ -124,7 +124,7 @@ class InvidiousPlugin:
             self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
 
         # video search item
-        add_list_item("Search video titles", "search_video")
+        add_list_item(self.addon_handle.getLocalizedString(30002), "search_video")
 
         for special_list_name in self.__class__.SPECIAL_LISTS:
             label = special_list_name[0].upper() + special_list_name[1:]
@@ -172,16 +172,16 @@ class InvidiousPlugin:
         except requests.HTTPError as e:
             dialog = xbmcgui.Dialog()
             dialog.notification(
-                "HTTP error",
-                "Request to Invidious API failed: HTTP status " + str(e.response.status_code),
+                self.addon_handle.getLocalizedString(30003),
+                self.addon_handle.getLocalizedString(30004) + str(e.response.status_code),
                 "error"
             )
 
         except requests.Timeout:
             dialog = xbmcgui.Dialog()
             dialog.notification(
-                "Timeout",
-                "Request to Invidious API exceeded timeout",
+                self.addon_handle.getLocalizedString(30005),
+                self.addon_handle.getLocalizedString(30006),
                 "error"
             )
 
