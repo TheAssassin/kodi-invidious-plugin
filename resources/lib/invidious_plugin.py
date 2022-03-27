@@ -5,7 +5,9 @@ import sys
 from urllib.parse import urlencode
 from urllib.parse import parse_qs
 
+import xbmc
 import xbmcgui
+import xbmcaddon
 import xbmcplugin
 
 import inputstreamhelper
@@ -20,10 +22,11 @@ class InvidiousPlugin:
     def __init__(self, base_url, addon_handle, args):
         self.base_url = base_url
         self.addon_handle = addon_handle
+        self.addon = xbmcaddon.Addon()
         self.args = args
 
         instance_url = xbmcplugin.getSetting(self.addon_handle, "instance_url")
-        self.api_client = invidious_api.InvidiousAPIClient(instance_url, self.addon_handle)
+        self.api_client = invidious_api.InvidiousAPIClient(instance_url)
 
     def build_url(self, action, **kwargs):
         if not action:
@@ -73,7 +76,7 @@ class InvidiousPlugin:
     def display_search(self):
         # query search terms with a dialog
         dialog = xbmcgui.Dialog()
-        search_input = dialog.input(self.addon_handle.getLocalizedString(30001), type=xbmcgui.INPUT_ALPHANUM)
+        search_input = dialog.input(self.addon.getLocalizedString(30001), type=xbmcgui.INPUT_ALPHANUM)
 
         # search for the terms on Invidious
         results = self.api_client.search(search_input)
@@ -124,7 +127,7 @@ class InvidiousPlugin:
             self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
 
         # video search item
-        add_list_item(self.addon_handle.getLocalizedString(30002), "search_video")
+        add_list_item(self.addon.getLocalizedString(30002), "search_video")
 
         for special_list_name in self.__class__.SPECIAL_LISTS:
             label = special_list_name[0].upper() + special_list_name[1:]
@@ -142,10 +145,10 @@ class InvidiousPlugin:
 
         # debugging
         xbmc.log("--------------------------------------------", xbmc.LOGDEBUG)
-        xbmc.log("base url:", self.base_url, xbmc.LOGDEBUG)
-        xbmc.log("handle:", self.addon_handle, xbmc.LOGDEBUG)
-        xbmc.log("args:", self.args, xbmc.LOGDEBUG)
-        xbmc.log("action:", action, xbmc.LOGDEBUG)
+        xbmc.log("base url:" + str(self.base_url), xbmc.LOGDEBUG)
+        xbmc.log("handle:" + str(self.addon_handle), xbmc.LOGDEBUG)
+        xbmc.log("args:" + str(self.args), xbmc.LOGDEBUG)
+        xbmc.log("action:" + str(action), xbmc.LOGDEBUG)
         xbmc.log("--------------------------------------------", xbmc.LOGDEBUG)
 
         # for the sake of simplicity, we just handle HTTP request errors here centrally
@@ -172,16 +175,16 @@ class InvidiousPlugin:
         except requests.HTTPError as e:
             dialog = xbmcgui.Dialog()
             dialog.notification(
-                self.addon_handle.getLocalizedString(30003),
-                self.addon_handle.getLocalizedString(30004) + str(e.response.status_code),
+                self.addon.getLocalizedString(30003),
+                self.addon.getLocalizedString(30004) + str(e.response.status_code),
                 "error"
             )
 
         except requests.Timeout:
             dialog = xbmcgui.Dialog()
             dialog.notification(
-                self.addon_handle.getLocalizedString(30005),
-                self.addon_handle.getLocalizedString(30006),
+                self.addon.getLocalizedString(30005),
+                self.addon.getLocalizedString(30006),
                 "error"
             )
 
