@@ -47,3 +47,7 @@ msgstr ""
 msgctxt "#30007"
 msgid "Instance URL"
 msgstr ""
+
+msgctxt "#30008"
+msgid "Instance settings"
+msgstr ""
