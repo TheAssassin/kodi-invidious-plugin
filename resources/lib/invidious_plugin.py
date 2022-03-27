@@ -23,7 +23,7 @@ class InvidiousPlugin:
         self.args = args
 
         instance_url = xbmcplugin.getSetting(self.addon_handle, "instance_url")
-        self.api_client = invidious_api.InvidiousAPIClient(instance_url, seld.addon_handle)
+        self.api_client = invidious_api.InvidiousAPIClient(instance_url, self.addon_handle)
 
     def build_url(self, action, **kwargs):
         if not action:
