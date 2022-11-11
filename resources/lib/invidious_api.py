@@ -45,8 +45,9 @@ class InvidiousAPIClient:
 
     def parse_video_list_response(self, response):
         data = response.json()
-
         for video in data:
+            if not video["type"] == "video":
+                continue
             for thumb in video["videoThumbnails"]:
                 # high appears to be ~480x360, which is a reasonable trade-off
                 # works well on 1080p
