@@ -54,13 +54,13 @@ class InvidiousPlugin:
             self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
         
         # video search item
-        add_list_item("Search", "search")
+        add_list_item(self.addon.getLocalizedString(30008), "search")
 
         for special_list_name in self.__class__.SPECIAL_LISTS:
             label = special_list_name[0].upper() + special_list_name[1:]
             add_list_item(label, special_list_name)
 
-        add_list_item("Followed channels", "show_following")
+        add_list_item(self.addon.getLocalizedString(30009), "show_following")
 
         self.end_of_directory()
 
@@ -103,10 +103,10 @@ class InvidiousPlugin:
                 url = self.build_url("show_channel", channel_id=result.channel_id)
                 if not self.is_following(result.channel_id):
                     follow_url = self.build_url("follow", channel_id=result.channel_id, name=result.name, thumbnail_url=result.thumbnail_url)
-                    list_item.addContextMenuItems([('Follow', 'RunPlugin(' + follow_url + ')')])
+                    list_item.addContextMenuItems([(self.addon.getLocalizedString(30010), 'RunPlugin(' + follow_url + ')')])
                 else:
                     unfollow_url = self.build_url("unfollow", channel_id=result.channel_id)
-                    list_item.addContextMenuItems([('Unfollow', 'RunPlugin(' + unfollow_url + ')')])
+                    list_item.addContextMenuItems([(self.addon.getLocalizedString(30011), 'RunPlugin(' + unfollow_url + ')')])
                 
                 self.add_directory_item(url=url, listitem=list_item, isFolder=True)
 
@@ -171,8 +171,8 @@ class InvidiousPlugin:
 
         dialog = xbmcgui.Dialog()
         dialog.notification(
-            "Followed!",
-            "Now following " + name + "."
+            self.addon.getLocalizedString(30012),
+            self.addon.getLocalizedString(30014) + " " + name + "."
         )
 
     def is_following(self, channel_id):
@@ -199,13 +199,13 @@ class InvidiousPlugin:
             json.dump(following, file)
             file.close()
             dialog.notification(
-                "Unfollowed!",
-                "No longer following this user.",
+                self.addon.getLocalizedString(30012),
+                self.addon.getLocalizedString(30013),
             )
         else:
             dialog.notification(
-                "Could not unfollow!",
-                "You have already unfollowed this user.",
+                self.addon.getLocalizedString(30015),
+                self.addon.getLocalizedString(30016),
                 "error"
             )
 
@@ -229,7 +229,7 @@ class InvidiousPlugin:
 
             url = self.build_url("show_channel", channel_id=channel_id)
 
-            list_item.addContextMenuItems([('Unfollow', 'RunPlugin(' + self.build_url("unfollow", channel_id=channel_id) + ')')])
+            list_item.addContextMenuItems([(self.addon.getLocalizedString(30011), 'RunPlugin(' + self.build_url("unfollow", channel_id=channel_id) + ')')])
 
             self.add_directory_item(url=url, listitem=list_item, isFolder=True)
         self.end_of_directory()
