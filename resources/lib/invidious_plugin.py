@@ -132,6 +132,14 @@ class InvidiousPlugin:
 
         self.display_search_results(results)
 
+    def display_special_list(self, special_list_name):
+        if special_list_name not in self.__class__.SPECIAL_LISTS:
+            raise ValueError(str(special_list_name) + " is not a valid special list")
+
+        videos = self.api_client.fetch_special_list(special_list_name)
+
+        self.display_search_results(videos)
+
     def play_video(self, id):
         # TODO: add support for adaptive streaming
         video_info = self.api_client.fetch_video_information(id)
@@ -268,6 +276,10 @@ class InvidiousPlugin:
 
             elif action == "show_following":
                 self.display_following()
+
+            elif action in self.__class__.SPECIAL_LISTS:
+                special_list_name = action
+                self.display_special_list(special_list_name)
 
         except requests.HTTPError as e:
             dialog = xbmcgui.Dialog()
