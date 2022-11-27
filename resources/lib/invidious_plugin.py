@@ -117,6 +117,9 @@ class InvidiousPlugin:
         dialog = xbmcgui.Dialog()
         search_input = dialog.input(self.addon.getLocalizedString(30001), type=xbmcgui.INPUT_ALPHANUM)
 
+        if len(search_input) == 0:
+            return
+
         # search for the terms on Invidious
         results = self.api_client.search(search_input)
 
