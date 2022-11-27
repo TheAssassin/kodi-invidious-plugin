@@ -54,7 +54,7 @@ class InvidiousPlugin:
             self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
         
         # video search item
-        add_list_item(self.addon.getLocalizedString(30008), "search")
+        add_list_item(self.addon.getLocalizedString(30001), "search")
 
         for special_list_name in self.__class__.SPECIAL_LISTS:
             label = special_list_name[0].upper() + special_list_name[1:]
@@ -117,12 +117,12 @@ class InvidiousPlugin:
         dialog = xbmcgui.Dialog()
         search_input = dialog.input(self.addon.getLocalizedString(30001), type=xbmcgui.INPUT_ALPHANUM)
 
+        # make sure something was input
+        if len(search_input) == 0:
+            return
+
         # search for the terms on Invidious
         results = self.api_client.search(search_input)
-
-        # for result in results:
-        #     xbmc.log(str(result), xbmc.LOGINFO)
-
 
         # assemble menu with the results
         self.display_search_results(results)
