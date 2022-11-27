@@ -54,13 +54,13 @@ class InvidiousPlugin:
             self.add_directory_item(url=self.build_url(path), listitem=listitem, isFolder=True)
         
         # video search item
-        add_list_item(self.addon.getLocalizedString(30001), "search")
+        add_list_item("Search", "search")
 
         for special_list_name in self.__class__.SPECIAL_LISTS:
             label = special_list_name[0].upper() + special_list_name[1:]
             add_list_item(label, special_list_name)
 
-        add_list_item(self.addon.getLocalizedString(30009), "show_following")
+        add_list_item("Followed channels", "show_following")
 
         self.end_of_directory()
 
@@ -103,10 +103,10 @@ class InvidiousPlugin:
                 url = self.build_url("show_channel", channel_id=result.channel_id)
                 if not self.is_following(result.channel_id):
                     follow_url = self.build_url("follow", channel_id=result.channel_id, name=result.name, thumbnail_url=result.thumbnail_url)
-                    list_item.addContextMenuItems([(self.addon.getLocalizedString(30010), 'RunPlugin(' + follow_url + ')')])
+                    list_item.addContextMenuItems([('Follow', 'RunPlugin(' + follow_url + ')')])
                 else:
                     unfollow_url = self.build_url("unfollow", channel_id=result.channel_id)
-                    list_item.addContextMenuItems([(self.addon.getLocalizedString(30011), 'RunPlugin(' + unfollow_url + ')')])
+                    list_item.addContextMenuItems([('Unfollow', 'RunPlugin(' + unfollow_url + ')')])
                 
                 self.add_directory_item(url=url, listitem=list_item, isFolder=True)
 
@@ -117,12 +117,12 @@ class InvidiousPlugin:
         dialog = xbmcgui.Dialog()
         search_input = dialog.input(self.addon.getLocalizedString(30001), type=xbmcgui.INPUT_ALPHANUM)
 
-        # make sure something was input
-        if len(search_input) == 0:
-            return
-
         # search for the terms on Invidious
         results = self.api_client.search(search_input)
+
+        # for result in results:
+        #     xbmc.log(str(result), xbmc.LOGINFO)
+
 
         # assemble menu with the results
         self.display_search_results(results)
@@ -171,8 +171,8 @@ class InvidiousPlugin:
 
         dialog = xbmcgui.Dialog()
         dialog.notification(
-            self.addon.getLocalizedString(30012),
-            self.addon.getLocalizedString(30014) + " " + name + "."
+            "Followed!",
+            "Now following " + name + "."
         )
 
     def is_following(self, channel_id):
@@ -199,13 +199,13 @@ class InvidiousPlugin:
             json.dump(following, file)
             file.close()
             dialog.notification(
-                self.addon.getLocalizedString(30012),
-                self.addon.getLocalizedString(30013),
+                "Unfollowed!",
+                "No longer following this user.",
             )
         else:
             dialog.notification(
-                self.addon.getLocalizedString(30015),
-                self.addon.getLocalizedString(30016),
+                "Could not unfollow!",
+                "You have already unfollowed this user.",
                 "error"
             )
 
@@ -229,7 +229,7 @@ class InvidiousPlugin:
 
             url = self.build_url("show_channel", channel_id=channel_id)
 
-            list_item.addContextMenuItems([(self.addon.getLocalizedString(30011), 'RunPlugin(' + self.build_url("unfollow", channel_id=channel_id) + ')')])
+            list_item.addContextMenuItems([('Unfollow', 'RunPlugin(' + self.build_url("unfollow", channel_id=channel_id) + ')')])
 
             self.add_directory_item(url=url, listitem=list_item, isFolder=True)
         self.end_of_directory()
