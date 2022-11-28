@@ -51,3 +51,7 @@ msgstr ""
 msgctxt "#30008"
 msgid "Instance settings"
 msgstr ""
+
+msgctxt "#30009"
+msgid "Use Dash/MPD"
+msgstr ""
