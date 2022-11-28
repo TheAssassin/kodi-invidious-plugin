@@ -28,6 +28,7 @@ class InvidiousPlugin:
         self.args = args
         self.path = xbmcvfs.translatePath(self.addon.getAddonInfo('profile'))
         self.following_path = self.path + self.FOLLOWING_FILENAME
+        self.use_dash = True if xbmcplugin.getSetting(self.addon_handle, "use_dash") == "true" else False
 
         instance_url = xbmcplugin.getSetting(self.addon_handle, "instance_url")
         self.api_client = invidious_api.InvidiousAPIClient(instance_url)
@@ -149,21 +150,25 @@ class InvidiousPlugin:
 
         listitem = None
 
-        # check if playback via MPEG-DASH is possible
-        if "dashUrl" in video_info:
-            is_helper = inputstreamhelper.Helper("mpd")
-            
-            if is_helper.check_inputstream():
-                listitem = xbmcgui.ListItem(path=video_info["dashUrl"])
-                listitem.setProperty("inputstream", is_helper.inputstream_addon)
-                listitem.setProperty("inputstream.adaptive.manifest_type", "mpd")
+        if self.use_dash:
+            # check if playback via MPEG-DASH is possible
+            if "dashUrl" in video_info:
+                is_helper = inputstreamhelper.Helper("mpd")
+                
+                if is_helper.check_inputstream():
+                    listitem = xbmcgui.ListItem(path=video_info["dashUrl"])
+                    listitem.setInfo('video', {})
+                    listitem.setProperty("inputstream", is_helper.inputstream_addon)
+                    listitem.setProperty("inputstream.adaptive.manifest_type", "mpd")
 
         # as a fallback, we use the first oldschool stream
         if listitem is None:
+            xbmc.log("FAILLING BACK!", xbmc.LOGINFO)
             # select the last stream, often the best
             url = video_info["formatStreams"][-1]["url"]
             # it's pretty complicated to play a video by its URL in Kodi...
             listitem = xbmcgui.ListItem(path=url)
+            listitem.setInfo('video', {})
 
         xbmcplugin.setResolvedUrl(self.addon_handle, succeeded=True, listitem=listitem)
 
