@@ -160,7 +160,8 @@ class InvidiousPlugin:
 
         # as a fallback, we use the first oldschool stream
         if listitem is None:
-            url = video_info["formatStreams"][0]["url"]
+            # select the last stream, often the best
+            url = video_info["formatStreams"][-1]["url"]
             # it's pretty complicated to play a video by its URL in Kodi...
             listitem = xbmcgui.ListItem(path=url)
 
