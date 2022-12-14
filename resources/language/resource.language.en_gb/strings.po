@@ -49,5 +49,41 @@ msgid "Instance URL"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Instance settings"
+msgid "General"
+msgstr ""
+
+msgctxt "#30009"
+msgid "Following"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Follow"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Unfollow"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Unfollowed!"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Followed!"
+msgstr ""
+
+msgctxt "#30013"
+msgid "No longer following this user."
+msgstr ""
+
+msgctxt "#30014"
+msgid "Now following"
+msgstr ""
+
+msgctxt "#30015"
+msgid "Could not unfollow!"
+msgstr ""
+
+msgctxt "#30016"
+msgid "You have already unfollowed this user."
 msgstr ""
