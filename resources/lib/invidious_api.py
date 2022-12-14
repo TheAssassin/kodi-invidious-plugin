@@ -58,7 +58,6 @@ class InvidiousAPIClient:
 
     def parse_video_list_response(self, response):
         data = response.json()
-        xbmc.log(json.dumps(data), xbmc.LOGINFO)
         for video in data:
             if video["type"] == "video":
                 for thumb in video["videoThumbnails"]:
@@ -122,10 +121,6 @@ class InvidiousAPIClient:
                     item["subCount"],
                     "channel"
                 )
-
-
-
-
 
     def search(self, *terms):
         params = {
